@@ -1,0 +1,41 @@
+[project]
+name = "vibicle-api"
+version = "0.1.0"
+description = "Vibicle vehicle history and listings API"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.30,<1",
+  "sqlalchemy>=2.0,<2.1",
+  "psycopg[binary]>=3.2,<4",
+  "pydantic>=2,<3",
+  "pydantic-settings>=2,<3",
+  "alembic>=1.14,<2",
+  "pwdlib[argon2]>=0.2,<1",
+  "email-validator>=2.2,<3",
+  "tzdata>=2025.2 ; sys_platform == 'win32'",
+  "pillow>=12.2,<14",
+  "python-multipart>=0.0.26,<1",
+]
+[dependency-groups]
+dev = ["pytest>=8,<10", "httpx>=0.27,<1", "ruff>=0.9,<1", "mypy>=1.14,<2"]
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vibicle_api"]
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["integration: requires migrated PostgreSQL verification database"]
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+[tool.mypy]
+python_version = "3.13"
+plugins = ["pydantic.mypy"]
+strict = true
+files = ["src"]

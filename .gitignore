@@ -1,0 +1,13 @@
+# New Web Application only; no existing Web3 paths are ignored or modified.
+web-app/.env
+web-app/.env.deploy.local
+web-app/.env.deploy.production
+web-app/backend/.venv/
+web-app/backend/.pytest_cache/
+web-app/backend/.mypy_cache/
+web-app/backend/.ruff_cache/
+web-app/backend/**/__pycache__/
+web-app/frontend/node_modules/
+web-app/frontend/dist/
+web-app/output/
+.playwright-cli/

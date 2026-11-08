@@ -1,0 +1,33 @@
+{
+    admin off
+}
+
+http://{$VIBICLE_DOMAIN} {
+    redir {$PUBLIC_ORIGIN}{uri} permanent
+}
+
+{$VIBICLE_DOMAIN} {
+    {$CADDY_TLS_DIRECTIVE}
+    header {
+        -Server
+        Referrer-Policy strict-origin-when-cross-origin
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Content-Security-Policy "default-src 'self'; img-src 'self' data:; base-uri 'none'; frame-ancestors 'none'; form-action 'self'; object-src 'none'"
+    }
+    @api path /api /api/*
+    handle @api {
+        request_body {
+            max_size 7340032
+        }
+        reverse_proxy api:8000 {
+            header_up -Forwarded
+            header_up -X-Forwarded-Host
+        }
+    }
+    handle {
+        root * /srv
+        try_files {path} /index.html
+        file_server
+    }
+}
